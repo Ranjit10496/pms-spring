@@ -48,10 +48,5 @@ public class HotelResource {
         Optional<Hotel> result = hotelService.findOne(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
-    @DeleteMapping("/hotels/{id}")
-    public ResponseEntity<Void> deleteHotel(@PathVariable Long id) {
-        logger.debug("Request to delete the Hotel:{}",id);
-        hotelService.delete(id);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
+   
 }
