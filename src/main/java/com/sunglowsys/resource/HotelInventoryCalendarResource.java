@@ -44,12 +44,13 @@ public class HotelInventoryCalendarResource {
     }
     @GetMapping("/hotelInventoryCalendars/{id}")
     public ResponseEntity<Optional<HotelInventoryCalendar>> findOne(@PathVariable Long id) {
-        logger.debug("Request to findOne the HotelInventoryCalendar");
+        logger.debug("Request to findOne the HotelInventoryCalendar{}",id);
         Optional<HotelInventoryCalendar> result = hotelInventoryCalendarService.findOne(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+    @DeleteMapping("/hotelInventoryCalendars/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        logger.debug("Request to delete the HotelInventoryCalendar:",id);
+        logger.debug("Request to delete the HotelInventoryCalendar:{}",id);
         hotelInventoryCalendarService.delete(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
