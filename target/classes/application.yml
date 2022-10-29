@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sunglowsys
+    username: root
+    password: root
+
+  jpa:
+    show_sql: true
+
+    hibernate:
+      ddl-auto: create
+      dialect: org.hibernate.dialect.MySQL8Dialect
