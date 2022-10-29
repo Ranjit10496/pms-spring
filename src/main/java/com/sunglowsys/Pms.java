@@ -9,5 +9,4 @@ public class Pms {
         SpringApplication.run(Pms.class,args);
         System.out.println("Successfullly");
     }
-
 }
