@@ -1,6 +1,4 @@
 package com.sunglowsys.resource;
-
-import com.sunglowsys.domain.HotelInventoryCalendar;
 import com.sunglowsys.domain.HotelRateCalendar;
 import com.sunglowsys.service.HotelRateCalendarService;
 import org.slf4j.Logger;
