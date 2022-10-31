@@ -29,21 +29,26 @@ public class HotelInventoryImpl implements HotelInventoryService {
 
     @Override
     public HotelInventory update(HotelInventory hotelInventory) {
-        return null;
+        logger.debug("REST Request to update the HotelInventory:{}",hotelInventory);
+        return hotelInventoryRepository.save(hotelInventory);
     }
 
     @Override
     public Page<HotelInventory> findAll(Pageable pageable) {
-        return null;
+        logger.debug("REST Request to findAll the HotelInventory:{}",pageable);
+        return hotelInventoryRepository.findAll(pageable);
     }
 
     @Override
     public Optional<HotelInventory> findOne(Long id) {
-        return Optional.empty();
+        logger.debug("REST Request to findOne the HotelInventory:{}",id);
+        return hotelInventoryRepository.findById(id);
     }
 
     @Override
     public void delete(Long id) {
+        logger.debug("REST Request to delete the HotelInventory:{}",id);
+        hotelInventoryRepository.deleteById(id);
 
     }
 }
