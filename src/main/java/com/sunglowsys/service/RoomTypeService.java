@@ -11,5 +11,6 @@ public interface RoomTypeService {
     RoomType update(RoomType roomType);
     Page<RoomType> findAll(Pageable pageable);
     Optional<RoomType> findOne(Long id);
+    void delete(Long id);
 
 }

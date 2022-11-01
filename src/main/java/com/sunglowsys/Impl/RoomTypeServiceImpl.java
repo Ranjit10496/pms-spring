@@ -45,4 +45,10 @@ public class RoomTypeServiceImpl implements RoomTypeService {
         logger.debug("REST Request to findOne the RoomType:{}",id);
         return roomTypeRepository.findById(id);
     }
+
+    @Override
+    public void delete(Long id) {
+        logger.debug("REST Request to delete the RoomType:{}",id);
+        roomTypeRepository.deleteById(id);
+    }
 }

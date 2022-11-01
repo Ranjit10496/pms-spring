@@ -48,5 +48,11 @@ public class RoomTypeResource {
         Optional<RoomType> result = roomTypeService.findOne(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+    @DeleteMapping("/roomType/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        logger.debug("REST Request to delete RoomType:{}",id);
+        roomTypeService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
 }
