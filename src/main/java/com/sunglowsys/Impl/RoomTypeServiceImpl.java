@@ -23,4 +23,10 @@ public class RoomTypeServiceImpl implements RoomTypeService {
         logger.debug("REST Request to save the RoomType:{}",roomType);
         return roomTypeRepository.save(roomType);
     }
+
+    @Override
+    public RoomType update(RoomType roomType) {
+        logger.debug("REST Request to update the RoomType:{}",roomType);
+        return roomTypeRepository.save(roomType);
+    }
 }

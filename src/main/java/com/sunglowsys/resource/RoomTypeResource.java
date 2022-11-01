@@ -6,10 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -25,5 +22,14 @@ public class RoomTypeResource {
         logger.debug("REST Request to save the RoomType:{}",roomType);
         RoomType result = roomTypeService.save(roomType);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+    @PutMapping("/roomType")
+    public ResponseEntity<RoomType> update(@RequestBody RoomType roomType) {
+        logger.debug("REST Request to update the RoomType:{}",roomType);
+        if (roomType.getId()==null) {
+            throw new RuntimeException("id must not be null");
+        }
+        RoomType result = roomTypeService.update(roomType);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }
