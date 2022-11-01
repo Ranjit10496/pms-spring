@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api")
 public class RoomTypeResource {
@@ -40,4 +42,11 @@ public class RoomTypeResource {
         Page<RoomType> result = roomTypeService.findAll(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+    @GetMapping("/roomType/{id}")
+    public ResponseEntity<Optional<RoomType>> findOne(@PathVariable Long id) {
+        logger.debug("REST Request to findOne RoomType:{}",id);
+        Optional<RoomType> result = roomTypeService.findOne(id);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
 }

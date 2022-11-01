@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 public class RoomTypeServiceImpl implements RoomTypeService {
@@ -36,5 +38,11 @@ public class RoomTypeServiceImpl implements RoomTypeService {
     public Page<RoomType> findAll(Pageable pageable) {
         logger.debug("REST Request to findAll the RoomType:{}",pageable);
         return roomTypeRepository.findAll(pageable);
+    }
+
+    @Override
+    public Optional<RoomType> findOne(Long id) {
+        logger.debug("REST Request to findOne the RoomType:{}",id);
+        return roomTypeRepository.findById(id);
     }
 }
