@@ -5,6 +5,8 @@ import com.sunglowsys.repository.RoomTypeRepository;
 import com.sunglowsys.service.RoomTypeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,5 +30,11 @@ public class RoomTypeServiceImpl implements RoomTypeService {
     public RoomType update(RoomType roomType) {
         logger.debug("REST Request to update the RoomType:{}",roomType);
         return roomTypeRepository.save(roomType);
+    }
+
+    @Override
+    public Page<RoomType> findAll(Pageable pageable) {
+        logger.debug("REST Request to findAll the RoomType:{}",pageable);
+        return roomTypeRepository.findAll(pageable);
     }
 }
