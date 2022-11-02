@@ -7,6 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Pms {
     public static void main(String[] args) {
         SpringApplication.run(Pms.class,args);
-        System.out.println("Successfullly");
+        System.out.println("Successfully");
     }
 }
