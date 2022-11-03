@@ -68,5 +68,18 @@ public class AddressResourceTest {
         assertEquals(HttpStatus.CREATED.value(),result.getResponse().getStatus());
         assertEquals(EXPEXTED_RESULT, result.getResponse().getContentAsString(),JSONCompareMode.LENIENT);
     }
+    @Test
+    void updateAddressTest() throws Exception {
+        Address mockAddress = createAddress();
+        mockAddress.setId(1l);
+
+        when(addressService.update(any())).thenReturn(mockAddress);
+        MvcResult result = mockMvc.perform(put("/api/addresses")
+                .contentType(TestUtil.APPLICATION_JSON)
+                .content(TestUtil.convertObjectToJsonBytes(mockAddress)))
+                .andReturn();
+        assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
+        assertEquals(EXPEXTED_RESULT, result.getResponse().getContentAsString(),JSONCompareMode.LENIENT);
+    }
 
 }
