@@ -16,8 +16,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -58,7 +60,16 @@ public class HotelResourceTest {
         return hotel;
 
     }
-    
+    private static Hotel createHotel2() {
+        Hotel hotel = new Hotel();
+        hotel.setCode("102");
+        hotel.setName("raj");
+        hotel.setHotelType("3 Star");
+        hotel.setEmail("raj10496@gmail.com");
+        hotel.setMobile("8433175578");
+
+        return hotel;
+    }
 
     @Test
     void createHotelTest() throws Exception{
@@ -86,6 +97,18 @@ public class HotelResourceTest {
                 .content(TestUtil.convertObjectToJsonBytes(mockHotel)))
                 .andReturn();
 
+        assertEquals(HttpStatus.OK.value(),result.getResponse().getStatus());
+        assertEquals(EXPEXTED_RESULT, result.getResponse().getContentAsString(),JSONCompareMode.LENIENT);
+    }
+    @Test
+    void getHotelTest() throws Exception{
+        Hotel mockHotel = createHotel();
+        mockHotel.setId(1l);
+
+        when(hotelService.findOne(anyLong())).thenReturn(Optional.of(mockHotel));
+
+        MvcResult result = mockMvc.perform(get("/api/hotels/1").accept(TestUtil.APPLICATION_JSON))
+                .andReturn();
         assertEquals(HttpStatus.OK.value(),result.getResponse().getStatus());
         assertEquals(EXPEXTED_RESULT, result.getResponse().getContentAsString(),JSONCompareMode.LENIENT);
     }
