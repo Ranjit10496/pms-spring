@@ -4,7 +4,6 @@ package com.sunglowsys;
 import com.sunglowsys.domain.Hotel;
 import com.sunglowsys.resource.HotelResource;
 import com.sunglowsys.service.HotelService;
-import net.bytebuddy.agent.builder.AgentBuilder;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -25,6 +24,7 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -135,5 +135,18 @@ public class HotelResourceTest {
         assertEquals(HttpStatus.OK.value(),result.getResponse().getStatus());
         //assertEquals(EXPEXTED_RESULT, result.getResponse().getContentAsString(),JSONCompareMode.LENIENT);
 
+    }
+    @Test
+    void deleteHotelTest() throws Exception {
+        Hotel mockHotel = createHotel();
+        mockHotel.setId(1l);
+
+        doNothing().when(hotelService).delete(anyLong());
+
+        MvcResult result = mockMvc.perform(delete("/api/hotels/1")
+                .contentType(TestUtil.APPLICATION_JSON)
+                .content(TestUtil.convertObjectToJsonBytes(mockHotel)))
+                .andReturn();
+        assertEquals(HttpStatus.OK.value(),result.getResponse().getStatus());
     }
 }
