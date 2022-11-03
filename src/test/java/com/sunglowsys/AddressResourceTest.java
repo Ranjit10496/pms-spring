@@ -15,7 +15,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 
+import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -80,6 +83,19 @@ public class AddressResourceTest {
                 .andReturn();
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
         assertEquals(EXPEXTED_RESULT, result.getResponse().getContentAsString(),JSONCompareMode.LENIENT);
+    }
+    @Test
+    void getAddressTest() throws Exception {
+        Address mockAddress = createAddress();
+        mockAddress.setId(1l);
+
+        when(addressService.findOne(anyLong())).thenReturn(Optional.of(mockAddress));
+
+        MvcResult result = mockMvc.perform(get("/api/addresses/1").accept(TestUtil.APPLICATION_JSON))
+                        .andReturn();
+        assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
+        assertEquals(EXPEXTED_RESULT, result.getResponse().getContentAsString(),JSONCompareMode.LENIENT);
+
     }
 
 }
