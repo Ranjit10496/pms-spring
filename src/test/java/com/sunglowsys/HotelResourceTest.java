@@ -4,18 +4,23 @@ package com.sunglowsys;
 import com.sunglowsys.domain.Hotel;
 import com.sunglowsys.resource.HotelResource;
 import com.sunglowsys.service.HotelService;
+import net.bytebuddy.agent.builder.AgentBuilder;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -111,5 +116,24 @@ public class HotelResourceTest {
                 .andReturn();
         assertEquals(HttpStatus.OK.value(),result.getResponse().getStatus());
         assertEquals(EXPEXTED_RESULT, result.getResponse().getContentAsString(),JSONCompareMode.LENIENT);
+    }
+    @Test
+    void getAllHotelTest() throws Exception {
+        Hotel mockHotel1 = createHotel();
+        mockHotel1.setId(1l);
+        Hotel mockHotel2 = createHotel2();
+        mockHotel2.setId(2l);
+        List<Hotel> hotelList = new ArrayList<>();
+        hotelList.add(mockHotel1);
+        hotelList.add(mockHotel2);
+
+        when(hotelService.findAll(any())).thenReturn(new PageImpl<>(hotelList, PageRequest.of(0,2),2));
+
+        MvcResult result = mockMvc.perform(get("/api/hotels").contentType(TestUtil.APPLICATION_JSON)
+                .content(TestUtil.convertObjectToJsonBytes(hotelList)))
+                .andReturn();
+        assertEquals(HttpStatus.OK.value(),result.getResponse().getStatus());
+        //assertEquals(EXPEXTED_RESULT, result.getResponse().getContentAsString(),JSONCompareMode.LENIENT);
+
     }
 }
