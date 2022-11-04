@@ -14,12 +14,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 
 @ExtendWith(SpringExtension.class)
@@ -65,5 +67,17 @@ public class RoomTypeResourceTest {
         assertEquals(HttpStatus.OK.value(),result.getResponse().getStatus());
         assertEquals(EXPECTED_RESULT,result.getResponse().getContentAsString(),JSONCompareMode.LENIENT);
 
+    }
+    @Test
+    void getRoomTypeTest() throws Exception {
+        RoomType mockRoomType = createRoomType();
+        mockRoomType.setId(1L);
+        when(roomTypeService.findOne(anyLong())).thenReturn(Optional.of(mockRoomType));
+        MvcResult result = mockMvc.perform(get("/api/roomType/1")
+                .accept(TestUtil.APPLICATION_JSON)
+                .content(TestUtil.convertObjectToJsonBytes(mockRoomType)))
+                .andReturn();
+        assertEquals(HttpStatus.OK.value(),result.getResponse().getStatus());
+        assertEquals(EXPECTED_RESULT,result.getResponse().getContentAsString(),JSONCompareMode.LENIENT);
     }
 }
