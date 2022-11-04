@@ -1,7 +1,6 @@
 package com.sunglowsys.domain;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -10,28 +9,28 @@ public class HotelBooking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Temporal(TemporalType.DATE)
-    @Column(nullable = false,name = "check_in_date")
-    private Date checkInDate;
-    @Temporal(TemporalType.DATE)
-    @Column(nullable = false,name = "check_out_date")
-    private Date checkOutDate;
+    //  @Temporal(TemporalType.DATE)
+    @Column(nullable = false, name = "check_in_date")
+    private String checkInDate;
+    //  @Temporal(TemporalType.DATE)
+    @Column(nullable = false, name = "check_out_date")
+    private String checkOutDate;
     @Column(name = "total_guest")
     private Long totalGuest;
     @Column(name = "no_of_nights")
     private Long noOfNights;
     @Column(name = "booking_amount")
-    private float BookingAmount;
+    private float bookingAmount;
 
     public HotelBooking() {
     }
 
-    public HotelBooking(Date checkInDate, Date checkOutDate, Long totalGuest, Long noOfNights, float bookingAmount) {
+    public HotelBooking(String checkInDate, String checkOutDate, Long totalGuest, Long noOfNights, float bookingAmount) {
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.totalGuest = totalGuest;
         this.noOfNights = noOfNights;
-        BookingAmount = bookingAmount;
+        this.bookingAmount = bookingAmount;
     }
 
     public Long getId() {
@@ -42,19 +41,19 @@ public class HotelBooking {
         this.id = id;
     }
 
-    public Date getCheckInDate() {
+    public String getCheckInDate() {
         return checkInDate;
     }
 
-    public void setCheckInDate(Date checkInDate) {
+    public void setCheckInDate(String checkInDate) {
         this.checkInDate = checkInDate;
     }
 
-    public Date getCheckOutDate() {
+    public String getCheckOutDate() {
         return checkOutDate;
     }
 
-    public void setCheckOutDate(Date checkOutDate) {
+    public void setCheckOutDate(String checkOutDate) {
         this.checkOutDate = checkOutDate;
     }
 
@@ -75,11 +74,11 @@ public class HotelBooking {
     }
 
     public float getBookingAmount() {
-        return BookingAmount;
+        return bookingAmount;
     }
 
     public void setBookingAmount(float bookingAmount) {
-        BookingAmount = bookingAmount;
+        this.bookingAmount = bookingAmount;
     }
 
     @Override
@@ -87,23 +86,23 @@ public class HotelBooking {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         HotelBooking that = (HotelBooking) o;
-        return Float.compare(that.BookingAmount, BookingAmount) == 0 && Objects.equals(id, that.id) && Objects.equals(checkInDate, that.checkInDate) && Objects.equals(checkOutDate, that.checkOutDate) && Objects.equals(totalGuest, that.totalGuest) && Objects.equals(noOfNights, that.noOfNights);
+        return Float.compare(that.bookingAmount, bookingAmount) == 0 && Objects.equals(id, that.id) && Objects.equals(checkInDate, that.checkInDate) && Objects.equals(checkOutDate, that.checkOutDate) && Objects.equals(totalGuest, that.totalGuest) && Objects.equals(noOfNights, that.noOfNights);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, checkInDate, checkOutDate, totalGuest, noOfNights, BookingAmount);
+        return Objects.hash(id, checkInDate, checkOutDate, totalGuest, noOfNights, bookingAmount);
     }
 
     @Override
     public String toString() {
         return "HotelBooking{" +
                 "id=" + id +
-                ", checkInDate=" + checkInDate +
-                ", checkOutDate=" + checkOutDate +
+                ", checkInDate='" + checkInDate + '\'' +
+                ", checkOutDate='" + checkOutDate + '\'' +
                 ", totalGuest=" + totalGuest +
                 ", noOfNights=" + noOfNights +
-                ", BookingAmount=" + BookingAmount +
+                ", bookingAmount=" + bookingAmount +
                 '}';
     }
 }
