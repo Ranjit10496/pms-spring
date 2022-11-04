@@ -48,7 +48,7 @@ public class HotelInventoryResource {
         Optional<HotelInventory> result = hotelInventoryService.findOne(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
-    @DeleteMapping("/hotelInventory{id}")
+   @DeleteMapping("/hotelInventory/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         logger.debug("REST Request to delete the HotelInventory:{}",id);
         hotelInventoryService.delete(id);
