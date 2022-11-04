@@ -22,10 +22,12 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -120,5 +122,16 @@ public class HotelBookingResourceTest {
                 .andReturn();
         assertEquals(HttpStatus.OK.value(),result.getResponse().getStatus());
        // assertEquals(EXPEXTED_RESULT,result.getResponse().getContentAsString(),JSONCompareMode.LENIENT);
+    }
+    @Test
+    void deleteHotelBookingTest() throws Exception {
+        HotelBooking mockHotelBooking = createHotelBooking();
+        mockHotelBooking.setId(1L);
+        doNothing().when(hotelBookingService).delete(anyLong());
+        MvcResult result = mockMvc.perform(delete("/api/hotelBookings/1").contentType(TestUtil.APPLICATION_JSON)
+                .content(TestUtil.convertObjectToJsonBytes(mockHotelBooking)))
+                .andReturn();
+        assertEquals(HttpStatus.OK.value(),result.getResponse().getStatus());
+
     }
 }
