@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -60,5 +61,18 @@ public class HotelBookingResourceTest {
                 .andReturn();
         assertEquals(HttpStatus.CREATED.value(), result.getResponse().getStatus());
         assertEquals(EXPEXTED_RESULT, result.getResponse().getContentAsString(), JSONCompareMode.LENIENT);
+    }
+    @Test
+    void updateHotelBookingTest() throws Exception {
+        HotelBooking mockHotelBooking = createHotelBooking();
+        mockHotelBooking.setId(1L);
+
+        when(hotelBookingService.update(any())).thenReturn(mockHotelBooking);
+        MvcResult result = mockMvc.perform(put("/api/hotelBookings")
+                .contentType(TestUtil.APPLICATION_JSON)
+                .content(TestUtil.convertObjectToJsonBytes(mockHotelBooking)))
+                .andReturn();
+        assertEquals(HttpStatus.OK.value(),result.getResponse().getStatus());
+        assertEquals(EXPEXTED_RESULT,result.getResponse().getContentAsString(),JSONCompareMode.LENIENT);
     }
 }
