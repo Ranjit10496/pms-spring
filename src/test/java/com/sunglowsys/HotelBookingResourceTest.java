@@ -9,11 +9,15 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -50,6 +54,15 @@ public class HotelBookingResourceTest {
         hotelBooking.setTotalGuest(10L);
         hotelBooking.setNoOfNights(4L);
         hotelBooking.setBookingAmount(200f);
+        return hotelBooking;
+    }
+    private static HotelBooking createHotelBooking2() {
+        HotelBooking hotelBooking = new HotelBooking();
+        hotelBooking.setCheckInDate("2021-12-22");
+        hotelBooking.setCheckOutDate("2021-12-21");
+        hotelBooking.setTotalGuest(9L);
+        hotelBooking.setNoOfNights(5L);
+        hotelBooking.setBookingAmount(300f);
         return hotelBooking;
     }
 
@@ -89,5 +102,23 @@ public class HotelBookingResourceTest {
                 .andReturn();
         assertEquals(HttpStatus.OK.value(),result.getResponse().getStatus());
         assertEquals(EXPEXTED_RESULT,result.getResponse().getContentAsString(),JSONCompareMode.LENIENT);
+    }
+    @Test
+    void getAllHotelBookingTest() throws Exception {
+        HotelBooking mockHotelBooking1 = createHotelBooking();
+        mockHotelBooking1.setId(1L);
+        HotelBooking mockHotelBooking2 = createHotelBooking2();
+        mockHotelBooking2.setId(2L);
+        List<HotelBooking> hotelBookingList = new ArrayList<>();
+        hotelBookingList.add(mockHotelBooking1);
+        hotelBookingList.add(mockHotelBooking2);
+
+        when(hotelBookingService.findAll(any())).thenReturn(new PageImpl<>(hotelBookingList ,PageRequest.of(0,2),2));
+        MvcResult result = mockMvc.perform(get("/api/hotelBookings")
+                .contentType(TestUtil.APPLICATION_JSON)
+                .content(TestUtil.convertObjectToJsonBytes(hotelBookingList)))
+                .andReturn();
+        assertEquals(HttpStatus.OK.value(),result.getResponse().getStatus());
+       // assertEquals(EXPEXTED_RESULT,result.getResponse().getContentAsString(),JSONCompareMode.LENIENT);
     }
 }
