@@ -14,10 +14,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -71,6 +75,17 @@ public class HotelBookingResourceTest {
         MvcResult result = mockMvc.perform(put("/api/hotelBookings")
                 .contentType(TestUtil.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(mockHotelBooking)))
+                .andReturn();
+        assertEquals(HttpStatus.OK.value(),result.getResponse().getStatus());
+        assertEquals(EXPEXTED_RESULT,result.getResponse().getContentAsString(),JSONCompareMode.LENIENT);
+    }
+    @Test
+    void getHotelBookingTest() throws Exception {
+        HotelBooking mockHotelBooking = createHotelBooking();
+        mockHotelBooking.setId(1L);
+        when(hotelBookingService.findOne(anyLong())).thenReturn(Optional.of(mockHotelBooking));
+        MvcResult result = mockMvc.perform(get("/api/hotelBookings/1")
+                .accept(TestUtil.APPLICATION_JSON))
                 .andReturn();
         assertEquals(HttpStatus.OK.value(),result.getResponse().getStatus());
         assertEquals(EXPEXTED_RESULT,result.getResponse().getContentAsString(),JSONCompareMode.LENIENT);
