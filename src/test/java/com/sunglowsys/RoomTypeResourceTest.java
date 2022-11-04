@@ -19,6 +19,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 
 @ExtendWith(SpringExtension.class)
@@ -50,6 +51,19 @@ public class RoomTypeResourceTest {
                 .andReturn();
         assertEquals(HttpStatus.CREATED.value(),result.getResponse().getStatus());
         assertEquals(EXPECTED_RESULT,result.getResponse().getContentAsString(), JSONCompareMode.LENIENT);
+
+    }
+    @Test
+    void updateRoomTypeTest() throws Exception {
+        RoomType mockRoomType = createRoomType();
+        mockRoomType.setId(1L);
+        when(roomTypeService.update(any())).thenReturn(mockRoomType);
+        MvcResult result = mockMvc.perform(put("/api/roomType")
+                .contentType(TestUtil.APPLICATION_JSON)
+                .content(TestUtil.convertObjectToJsonBytes(mockRoomType)))
+                .andReturn();
+        assertEquals(HttpStatus.OK.value(),result.getResponse().getStatus());
+        assertEquals(EXPECTED_RESULT,result.getResponse().getContentAsString(),JSONCompareMode.LENIENT);
 
     }
 }
