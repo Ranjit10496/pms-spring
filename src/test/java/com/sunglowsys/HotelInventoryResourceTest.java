@@ -1,7 +1,6 @@
 package com.sunglowsys;
 
 import com.sunglowsys.domain.HotelInventory;
-import com.sunglowsys.domain.RoomType;
 import com.sunglowsys.resource.HotelInventoryResource;
 import com.sunglowsys.service.HotelInventoryService;
 import org.junit.jupiter.api.Test;
